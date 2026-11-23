@@ -264,8 +264,9 @@ async def generate_video(topic: str) -> str:
         "-s", f"{W}x{H}", "-pix_fmt", "rgb24", "-r", str(FPS),
         "-i", "-",
         "-i", "temp/voice_raw.mp3",
-        "-c:v", "libx264", "-preset", "ultrafast", "-threads", "1", "-rc-lookahead", "5", "-bufsize", "1M", "-pix_fmt", "yuv420p",
-        "-c:a", "aac", "-b:a", "192k", "-shortest",
+        "-c:v", "libx264", "-preset", "ultrafast", "-threads", "1",
+        "-pix_fmt", "yuv420p",
+        "-c:a", "aac", "-b:a", "128k", "-shortest",
         out_mp4
     ]
     proc = subprocess.Popen(ffmpeg_cmd, stdin=subprocess.PIPE, stderr=subprocess.DEVNULL)
