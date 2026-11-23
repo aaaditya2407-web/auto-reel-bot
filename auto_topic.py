@@ -60,7 +60,7 @@ Return ONLY valid JSON (no markdown, no backticks) as a list of objects with the
     else:
         raise ValueError("Set OPENROUTER_API_KEY or GEMINI_API_KEY first!")
 
-    cleaned = re.sub(r"^```(?:json)?|```$", "", (raw or \"\").strip(), flags=re.MULTILINE) or "").strip()
+    cleaned = re.sub(r"^```(?:json)?|```$", "", raw.strip(), flags=re.MULTILINE).strip()
     return json.loads(cleaned)
 
 def get_font(size, bold=False):
@@ -106,7 +106,7 @@ async def generate_audio_and_timings(scenes):
 
     for idx, scene in enumerate(scenes):
         part_mp3 = f"temp/part_{idx}.mp3"
-        txt = (scene.get("text") or "Next step") or "").strip()
+        txt = (scene.get("text") or "Next step").strip()
         try:
             communicate = edge_tts.Communicate(txt, VOICE, rate="+8%")
             await communicate.save(part_mp3)
@@ -118,7 +118,7 @@ async def generate_audio_and_timings(scenes):
             "ffprobe", "-v", "error", "-show_entries", "format=duration",
             "-of", "default=noprint_wrappers=1:nokey=1", part_mp3
         ]
-        dur = float(subprocess.check_output(cmd).decode() or "").strip()) + 0.30
+        dur = float(subprocess.check_output(cmd).decode().strip()) + 0.30
         timings.append({"start": current_time, "end": current_time + dur, "duration": dur})
         current_time += dur
         audio_parts.append(part_mp3)
