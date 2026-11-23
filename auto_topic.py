@@ -106,8 +106,13 @@ async def generate_audio_and_timings(scenes):
 
     for idx, scene in enumerate(scenes):
         part_mp3 = f"temp/part_{idx}.mp3"
-        communicate = edge_tts.Communicate(scene["text"], VOICE, rate="+8%")
-        await communicate.save(part_mp3)
+        txt = (scene.get("text") or "Next step").strip()
+        try:
+            communicate = edge_tts.Communicate(txt, VOICE, rate="+8%")
+            await communicate.save(part_mp3)
+        except Exception:
+            from gtts import gTTS
+            gTTS(text=txt, lang="hi", tld="co.in").save(part_mp3)
 
         cmd = [
             "ffprobe", "-v", "error", "-show_entries", "format=duration",

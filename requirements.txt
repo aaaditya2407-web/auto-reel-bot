@@ -2,3 +2,6 @@ edge-tts
 pillow
 requests
 python-telegram-bot
+
+edge-tts>=7.0.0
+gTTS
