@@ -8,6 +8,10 @@ from auto_topic import generate_video
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
 
 class HealthHandler(BaseHTTPRequestHandler):
+    def do_HEAD(self):
+        self.send_response(200)
+        self.end_headers()
+
     def do_GET(self):
         self.send_response(200)
         self.end_headers()
