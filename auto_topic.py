@@ -12,8 +12,8 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 
-W, H = 1080, 1920
-FPS = 30
+W, H = 720, 1280
+FPS = 24
 VOICE = "hi-IN-MadhurNeural"
 
 def ease_out_cubic(t: float) -> float:
@@ -259,7 +259,7 @@ async def generate_video(topic: str) -> str:
         "-s", f"{W}x{H}", "-pix_fmt", "rgb24", "-r", str(FPS),
         "-i", "-",
         "-i", "temp/voice_raw.mp3",
-        "-c:v", "libx264", "-preset", "ultrafast", "-pix_fmt", "yuv420p",
+        "-c:v", "libx264", "-preset", "ultrafast", "-threads", "1", "-rc-lookahead", "5", "-bufsize", "1M", "-pix_fmt", "yuv420p",
         "-c:a", "aac", "-b:a", "192k", "-shortest",
         out_mp4
     ]
