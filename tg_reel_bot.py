@@ -47,4 +47,4 @@ if __name__ == "__main__":
     app = ApplicationBuilder().token(BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("reel", make_reel))
-    app.run_polling()
+    app.run_polling(drop_pending_updates=True)
