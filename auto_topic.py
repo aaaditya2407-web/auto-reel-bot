@@ -2,8 +2,8 @@ import os, re, sys, json, math, asyncio, subprocess, urllib.request
 import edge_tts
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
-W, H = 720, 1280
-FPS = 24
+W, H = 540, 960
+FPS = 18
 VOICE = "hi-IN-MadhurNeural"
 
 def get_font(size, bold=False):
@@ -177,7 +177,7 @@ async def generate_video(topic: str) -> str:
         "ffmpeg", "-y", "-f", "rawvideo", "-vcodec", "rawvideo",
         "-s", f"{W}x{H}", "-pix_fmt", "rgb24", "-r", str(FPS),
         "-i", "-", "-i", "temp/voice_raw.mp3",
-        "-c:v", "libx264", "-preset", "ultrafast", "-threads", "1",
+        "-c:v", "libx264", "-preset", "ultrafast", "-threads", "1", "-x264-params", "rc-lookahead=1:sync-lookahead=0:bframes=0",
         "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k", "-shortest", out_mp4
     ]
     proc = subprocess.Popen(ffmpeg_cmd, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
