@@ -3,7 +3,7 @@ title: Auto Reel Bot
 emoji: 🚀
 colorFrom: blue
 colorTo: blue
-sdk: static
+sdk: docker
 pinned: false
 ---
 
